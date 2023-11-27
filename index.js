@@ -5,6 +5,8 @@
  */
 
 import fs from 'fs'
+import path from 'path'
+import esj from 'ejs'
 import parser from '@babel/parser'
 import traverse from '@babel/traverse'
 
@@ -29,6 +31,7 @@ function createAsset(filePath) {
         }
     })
     return {
+        filePath,
         source,
         deps
     }
@@ -37,6 +40,19 @@ function createAsset(filePath) {
 // const asset = createAsset()
 // console.log(asset)
 
+// 创建依赖关系图
 function createGraph() {
     const mainAsset = createAsset('./example/main.js')
+
+    const queue = [mainAsset]
+    for(const asset of queue) {
+        asset.deps.forEach(relativePath => {
+            const child = createAsset(path.resolve('./example', relativePath))
+            queue.push(child)
+        })
+    }
+    return queue
 }
+
+const graph = createGraph()
+console.log(graph)
