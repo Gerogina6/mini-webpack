@@ -6,7 +6,7 @@
 
 import fs from 'fs'
 import path from 'path'
-import ejs from 'ejs'
+import esj from 'ejs'
 import parser from '@babel/parser'
 import traverse from '@babel/traverse'
 
@@ -55,12 +55,8 @@ function createGraph() {
 }
 
 const graph = createGraph()
+console.log(graph)
 
 function build(graph) {
-    const template = fs.readFileSync('./bundle.ejs', {encoding:'utf-8'})
-    const code = ejs.render(template)
-
-    fs.writeFileSync('./dist/bundle.js', code)
+    
 }
-
-build(graph)
