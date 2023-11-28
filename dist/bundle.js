@@ -59,9 +59,31 @@ function createAsset(filePath) {
     require(1)
 })
 ({
-    <% data.forEach(info => { %>
-        "<%- info["id"] %>": [function(require, module, exports) {
-            <%- info["code"] %>
-        },<%- JSON.stringify(info["mapping"])%>]
-    <% }) %>
+    
+        "0": [function(require, module, exports) {
+            "use strict";
+
+var _foo = require("./foo.js");
+
+var _foo2 = _interopRequireDefault(_foo);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+(0, _foo2.default)();
+console.log('main.js');
+        },]
+    
+        "1": [function(require, module, exports) {
+            "use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.foo = foo;
+
+function foo() {
+  console.log('foo');
+}
+        },]
+    
 })
