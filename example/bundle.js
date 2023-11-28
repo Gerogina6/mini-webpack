@@ -3,19 +3,20 @@
         
         const [fn,mapping] = modules[id]
     
-        const module = {
-            exports: {},
-        }
         function localRequire(filePath) {
             const id = mapping[filePath]
             return require(id)
+        }
+        
+        const module = {
+            exports: {},
         }
         fn(localRequire, module, module.exports)
     
         return module.exports
     }
     
-    require(1)
+    require(0)
 
 })({
     1:[
@@ -26,7 +27,7 @@
             console.log('main.js')
     },
     {
-        './foo.js': 2
+        './foo.js': 1
     }],
     2:[
         function(require, module, exports) {
@@ -36,6 +37,6 @@
             module.exports = {
                 foo,
             }
-        },{}]
+        },{}],
 })
 

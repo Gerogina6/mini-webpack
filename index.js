@@ -36,7 +36,6 @@ function createAsset(filePath) {
     const { code } = transformFromAst(ast, null, {
         presets: ["env"]
     })
-    console.log(code)
 
     return {
         filePath,
@@ -47,16 +46,13 @@ function createAsset(filePath) {
     }
 }
 
-// const asset = createAsset()
-// console.log(asset)
-
 // 创建依赖关系图
 function createGraph() {
     const mainAsset = createAsset('./example/main.js')
 
     const queue = [mainAsset]
     for(const asset of queue) {
-        asset.deps.forEach(relativePath => {
+        asset.deps.forEach((relativePath) => {
             const child = createAsset(path.resolve('./example', relativePath))
             asset.mapping[relativePath] = child.id
             queue.push(child)
@@ -69,13 +65,12 @@ const graph = createGraph()
 
 function build(graph) {
     const template = fs.readFileSync('./bundle.ejs', {encoding:'utf-8'})
-
     const data = graph.map((asset) => {
-        const { id, code, mappiing } = asset
+        const { id, code, mapping } = asset
         return {
             id, 
             code, 
-            mappiing
+            mapping
         }
     })
     const code = ejs.render(template, { data })
